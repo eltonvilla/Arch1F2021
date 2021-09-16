@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+int main(){
+	printf("Working and running.\n");
+	return 0;
+}
+
 /*Return true (non-zero) if c is a whitespace character
 	('\t or ' ').
 	Zero terminators are not printable (therefore false) */
