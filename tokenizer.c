@@ -3,7 +3,12 @@
 #include <stdbool.h>
 
 int main(){
-	printf("Working and running.\n");
+	char input[1000];
+
+	printf("Please enter the input string.\n$");
+
+	fgets(input, 1000, stdin);
+	printf("Your string is:%s\n", input);
 	return 0;
 }
 
