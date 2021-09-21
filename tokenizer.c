@@ -2,13 +2,26 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+bool delim_character(char c);
+
 int main(){
+	//Assuming input will not be greater than 1000
 	char input[1000];
 
 	printf("Please enter the input string.\n$");
 
 	fgets(input, 1000, stdin);
 	printf("Your string is:%s\n", input);
+
+	//TESTING CODE HERE
+	//**/
+	char tab = '\t';
+	char space = ' ';
+
+	printf("Tab is delim char:%d\nSpace is delim char:%d",
+	delim_character(tab), delim_character(space));
+
+	//**/
 	return 0;
 }
 
@@ -16,7 +29,13 @@ int main(){
 	('\t or ' ').
 	Zero terminators are not printable (therefore false) */
 bool delim_character (char c){
+	bool is_delim = false;
+	
+	//ascii codes for tab and space are 9 and 32 respectively
+	if((c == 9) || (c == 32))
+	is_delim = true;
 
+	return is_delim;
 }
 
 /*Return true (non-zero) if c is a whitespace character
