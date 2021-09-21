@@ -6,7 +6,7 @@ bool delim_character (char c);
 bool non_delim_character (char c);
 char *word_start (char* str);
 char *end_word (char* str);
-//int count_tokens (char* str);
+int count_tokens (char* str);
 //char *copy_str (char *inStr, short len);
 //char** tokenize (char* str);
 //void print_all_tokens(char** tokens);
@@ -46,8 +46,11 @@ bool delim_character (char c){
 bool non_delim_character (char c){
 	bool is_non_delim = false;
 
+	//ascii codes for whitespace characters
 	if((c < 33) || (c > 126)){
+		//not tab or space
 		if(delim_character(c) == false){
+			//zero terminators are false
 			if(c != 0){
 				is_non_delim = true;
 			}
@@ -63,9 +66,14 @@ char *word_start (char* str){
 	char current = *str;
 	int i = 0;
 
+	//checking for whitespace
 	while((delim_character(current) == true)||(non_delim_character(current) == true)){
 		i += 1;
 		current = *(str+i);
+		//Check for zero terminator to avoid endless loop
+		if(current == 0){
+			return (str+i);
+		}
 	}
 
 	return (str+i);
@@ -91,7 +99,15 @@ char *end_word (char* str){
 
 //Counts the number of words or tokens
 int count_tokens(char* str){
+	int count = 0;
 
+	while(*str != '\n'){
+		str = word_start(str);
+		str = end_word(str);
+		count += 1;
+	}
+
+	return count;
 }
 
 /*Returns a freshly allocated zero-terminated vector of freshly allocated
