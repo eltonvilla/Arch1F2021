@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-bool delim_character(char c);
+bool delim_character (char c);
+bool non_delim_character (char c);
 
 int main(){
 	//Assuming input will not be greater than 1000
@@ -15,11 +16,6 @@ int main(){
 
 	//TESTING CODE HERE
 	//**/
-	char tab = '\t';
-	char space = ' ';
-
-	printf("Tab is delim char:%d\nSpace is delim char:%d",
-	delim_character(tab), delim_character(space));
 
 	//**/
 	return 0;
@@ -42,13 +38,22 @@ bool delim_character (char c){
 	(not tab or space).
 	Zero terminators are not printable (therefore false) */
 bool non_delim_character (char c){
+	bool is_non_delim = false;
 
+	if((c < 33) || (c > 126)){
+		if(delim_character(c) == false){
+			if(c != 0){
+				is_non_delim = true;
+			}
+		}
+	}
+
+	return is_non_delim;
 }
 
 /*Returns a pointer to the first character of the next
 	space-separated word*/
 char *word_start (char* str){
-
 }
 
 /*Returns a pointer to the first space character of the zero
