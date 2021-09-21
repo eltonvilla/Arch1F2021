@@ -21,6 +21,7 @@ int main(){
 
 	tokens = tokenize(input);
 	print_all_tokens(tokens);
+
 	return 0;
 }
 
@@ -134,16 +135,24 @@ char* copy_str (char *inStr, short len){
 char** tokenize (char* str){
 	int numTokens = count_tokens(str);
 	char** tokens = (char**)malloc((numTokens+1)*sizeof(char*));
-	char* tokenStart;
-	char* tokenEnd;
-	int tokenSize;
+	char* tokenStart = word_start(str);
+	char* tokenEnd = end_word(tokenStart);
+	int tokenSize = tokenEnd - tokenStart;
 	int i = 0;
 
+	//Storing zero-terminated token into vector
+	tokens[i] = (char*)malloc((tokenSize+1)*sizeof(char));
+	tokens[i] = copy_str(tokenStart, tokenSize);
+	tokens[i][tokenSize] = '0';
+	i++;
+	numTokens--;
+
+	//Store rest of tokens into vector
 	while(numTokens > 0){
-		tokenStart = word_start(str);
-		tokenEnd = end_word(str);
+		tokenStart = word_start(tokenEnd);
+		tokenEnd = end_word(tokenStart);
 		tokenSize = tokenEnd - tokenStart;
-		
+
 		tokens[i] = (char*)malloc((tokenSize+1)*sizeof(char));
 		tokens[i] = copy_str(tokenStart, tokenSize);
 		tokens[i][tokenSize] = '0';
@@ -151,6 +160,7 @@ char** tokenize (char* str){
 		numTokens--;
 	}
 
+	//Terminate vector with 0
 	tokens[i] = (char*)malloc((1)*sizeof(char));
 	tokens[i][0] = '0';
 	return tokens;
@@ -160,12 +170,17 @@ void print_all_tokens(char** tokens){
 	int numTokens = 0;
 	int i = 0;
 
+	//Count tokens in vector
 	while((tokens[i][0] != '0') && (tokens[i][0] != '\0')){
 		numTokens++;
 		i++;
 	}
 
 	for(i = 0; i < numTokens; i++){
-		printf("Tokens[%d]: %s\n", i, tokens[i]);
+		printf("Tokens[%d]: ", i);
+		//print token character by character to avoid zero terminator
+		for(int j = 0; tokens[i][j] != '0'; j++)
+			printf("%c",tokens[i][j]);
+		printf("\n");
 	}
 }
