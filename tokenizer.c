@@ -7,7 +7,7 @@ bool non_delim_character (char c);
 char *word_start (char* str);
 char *end_word (char* str);
 int count_tokens (char* str);
-//char *copy_str (char *inStr, short len);
+char *copy_str (char *inStr, short len);
 //char** tokenize (char* str);
 //void print_all_tokens(char** tokens);
 
@@ -119,8 +119,19 @@ For example, tokenize("hello world string") would result in:
 	tokens[3] = 0
 
 */
-char *copy_str (char *inStr, short len){
+char* copy_str (char *inStr, short len){
+	char* copy = (char*)malloc((len+1)*sizeof(char));
+	char current = *inStr;
+	int counter = len;
 
+	while(counter > 0){
+		*copy = *inStr;
+		inStr++;
+		copy++;
+		counter--;
+	}
+
+	return (copy-len);
 }
 
 char** tokenize (char* str){
