@@ -8,22 +8,19 @@ char *word_start (char* str);
 char *end_word (char* str);
 int count_tokens (char* str);
 char *copy_str (char *inStr, short len);
-//char** tokenize (char* str);
-//void print_all_tokens(char** tokens);
+char** tokenize (char* str);
+void print_all_tokens(char** tokens);
 
 int main(){
 	//Assuming input will not be greater than 1000
 	char input[1000];
+	char** tokens;
 
 	printf("Please enter the input string.\n$");
-
 	fgets(input, 1000, stdin);
-	printf("Your string is:%s\n", input);
 
-	//TESTING CODE HERE
-	//**/
-	
-	//**/
+	tokens = tokenize(input);
+	print_all_tokens(tokens);
 	return 0;
 }
 
@@ -135,9 +132,40 @@ char* copy_str (char *inStr, short len){
 }
 
 char** tokenize (char* str){
+	int numTokens = count_tokens(str);
+	char** tokens = (char**)malloc((numTokens+1)*sizeof(char*));
+	char* tokenStart;
+	char* tokenEnd;
+	int tokenSize;
+	int i = 0;
 
+	while(numTokens > 0){
+		tokenStart = word_start(str);
+		tokenEnd = end_word(str);
+		tokenSize = tokenEnd - tokenStart;
+		
+		tokens[i] = (char*)malloc((tokenSize+1)*sizeof(char));
+		tokens[i] = copy_str(tokenStart, tokenSize);
+		tokens[i][tokenSize] = '0';
+		i++;
+		numTokens--;
+	}
+
+	tokens[i] = (char*)malloc((1)*sizeof(char));
+	tokens[i][0] = '0';
+	return tokens;
 }
 
 void print_all_tokens(char** tokens){
+	int numTokens = 0;
+	int i = 0;
 
+	while((tokens[i][0] != '0') && (tokens[i][0] != '\0')){
+		numTokens++;
+		i++;
+	}
+
+	for(i = 0; i < numTokens; i++){
+		printf("Tokens[%d]: %s\n", i, tokens[i]);
+	}
 }
