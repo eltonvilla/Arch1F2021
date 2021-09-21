@@ -4,6 +4,12 @@
 
 bool delim_character (char c);
 bool non_delim_character (char c);
+char *word_start (char* str);
+char *end_word (char* str);
+//int count_tokens (char* str);
+//char *copy_str (char *inStr, short len);
+//char** tokenize (char* str);
+//void print_all_tokens(char** tokens);
 
 int main(){
 	//Assuming input will not be greater than 1000
@@ -16,7 +22,7 @@ int main(){
 
 	//TESTING CODE HERE
 	//**/
-
+	
 	//**/
 	return 0;
 }
@@ -26,7 +32,7 @@ int main(){
 	Zero terminators are not printable (therefore false) */
 bool delim_character (char c){
 	bool is_delim = false;
-	
+
 	//ascii codes for tab and space are 9 and 32 respectively
 	if((c == 9) || (c == 32))
 	is_delim = true;
@@ -54,12 +60,33 @@ bool non_delim_character (char c){
 /*Returns a pointer to the first character of the next
 	space-separated word*/
 char *word_start (char* str){
+	char current = *str;
+	int i = 0;
+
+	while((delim_character(current) == true)||(non_delim_character(current) == true)){
+		i += 1;
+		current = *(str+i);
+	}
+
+	return (str+i);
 }
 
 /*Returns a pointer to the first space character of the zero
 	 terminated string*/
 char *end_word (char* str){
+	char current = *str;
+	int i = 0;
 
+	while((delim_character(current) == false) && (non_delim_character(current) == false)){
+		i += 1;
+		current = *(str+i);
+		//Check for zero terminator to avoid endless loop
+		if(current == 0){
+			return(str+i);
+		}
+	}
+
+	return (str+i);
 }
 
 //Counts the number of words or tokens
